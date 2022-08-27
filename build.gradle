@@ -12,9 +12,11 @@ repositories {
 // https://docs.gradle.org/current/userguide/toolchains.html#header
 java {
     toolchain {
-        languageVersion.set JavaLanguageVersion.of(15)
+        languageVersion.set JavaLanguageVersion.of(11)
     }
 }
+
+java.toolchain.vendor.set JvmVendorSpec.GRAAL_VM
 
 // older version (but mutually exclusive with newer toolchain api):gi
 // https://docs.gradle.org/current/userguide/building_java_projects.html#sec:java_cross_compilation
@@ -23,6 +25,7 @@ java {
 dependencies {
     implementation 'org.graalvm.js:js:22.2.0'
     implementation 'org.graalvm.js:js-scriptengine:22.2.0'
+    implementation 'org.graalvm.truffle:truffle-api:22.2.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
@@ -30,4 +33,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+// gradle does not fail the build if it is run with non Graalvm jdk
+task 'printJavaProperties' {
+    doLast {
+        println System.getProperties().entrySet().stream()
+                .filter(e -> String.valueOf(e.getKey()).startsWith("java."))
+                .map(e -> e.getKey() + ': ' + e.getValue() + '\n')
+                .sorted()
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+    }
 }
