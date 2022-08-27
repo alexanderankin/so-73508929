@@ -10,6 +10,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.graalvm.js:js:22.2.0'
+    implementation 'org.graalvm.js:js-scriptengine:22.2.0'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 }
