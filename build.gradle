@@ -9,6 +9,17 @@ repositories {
     mavenCentral()
 }
 
+// https://docs.gradle.org/current/userguide/toolchains.html#header
+java {
+    toolchain {
+        languageVersion.set JavaLanguageVersion.of(15)
+    }
+}
+
+// older version (but mutually exclusive with newer toolchain api):gi
+// https://docs.gradle.org/current/userguide/building_java_projects.html#sec:java_cross_compilation
+// java { sourceCompatibility JavaVersion.VERSION_15 }
+
 dependencies {
     implementation 'org.graalvm.js:js:22.2.0'
     implementation 'org.graalvm.js:js-scriptengine:22.2.0'
